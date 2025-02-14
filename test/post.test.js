@@ -1,17 +1,12 @@
-const request = require("supertest");
-const express = require("express");
-const postRoutes = require("../src/app");
-const { expect } = require("chai");
-
-const app = express();
-app.use(express.json());
-app.use("/posts", postRoutes);
+import request from "supertest";
+import app from "../src/app.js"; // Import the existing app instance
+import { expect } from "chai";
 
 describe("Blog API Tests", () => {
     it("GET /posts should return an empty array initially", async () => {
         const res = await request(app).get("/posts");
-        expect(res.statusCode).toEqual(200);
-        expect(res.body).toEqual([]);
+        expect(res.statusCode).to.equal(200);
+        expect(res.body).to.deep.equal([]);
     });
 
     it("POST /posts should create a post", async () => {
@@ -20,7 +15,7 @@ describe("Blog API Tests", () => {
             content: "This is a test post",
             author: "John Doe",
         });
-        expect(res.statusCode).toEqual(201);
-        expect(res.body).toHaveProperty("id");
+        expect(res.statusCode).to.equal(201);
+        expect(res.body).to.have.property("id");
     });
 });

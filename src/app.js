@@ -1,18 +1,23 @@
-const express = require("express");
-const dotenv = require("dotenv");
-const postRoutes = require("./routes/postRoutes");
+import express from "express";
+import dotenv from "dotenv";
+import postRoutes from "./routes/postRoutes.js";
 
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
-app.use(express.json()); // To parse JSON request body
+app.use(express.json());
 
 // Routes
 app.use("/posts", postRoutes);
 
-// Start Server
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+// Export app for testing
+export default app;
+
+// Start server only if not in test mode
+if (process.env.NODE_ENV !== "test") {
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+    });
+}
